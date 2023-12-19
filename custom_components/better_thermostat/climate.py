@@ -1111,33 +1111,33 @@ class BetterThermostat(ClimateEntity, RestoreEntity, ABC):
             ):
                 self.attr_hvac_action = HVACAction.HEATING
                 _LOGGER.debug(
-                    "Heating 1"
+                    "Heating"
                 )
             else:
                 self.attr_hvac_action = HVACAction.IDLE
                 _LOGGER.debug(
-                    "Idle 1"
+                    "Idle"
                 )
 
-        if (
-            self.attr_hvac_action is None
-            and self.bt_target_temp is not None
-            and self.cur_temp is not None
-        ):
-            if (
-                self.bt_target_temp > self.cur_temp
-                and self.window_open is False
-                and self.bt_hvac_mode is not HVACMode.OFF
-            ):
-                self.attr_hvac_action = HVACAction.HEATING
-                _LOGGER.debug(
-                    "Heating 2"
-                )
-            else:
-                self.attr_hvac_action = HVACAction.IDLE
-                _LOGGER.debug(
-                    "Idle 2"
-                )
+        # if (
+        #     self.attr_hvac_action is None
+        #     and self.bt_target_temp is not None
+        #     and self.cur_temp is not None
+        # ):
+        #     if (
+        #         self.bt_target_temp > self.cur_temp
+        #         and self.window_open is False
+        #         and self.bt_hvac_mode is not HVACMode.OFF
+        #     ):
+        #         self.attr_hvac_action = HVACAction.HEATING
+        #         _LOGGER.debug(
+        #             "Heating 2"
+        #         )
+        #     else:
+        #         self.attr_hvac_action = HVACAction.IDLE
+        #         _LOGGER.debug(
+        #             "Idle 2"
+        #         )
 
         return self.attr_hvac_action
 
