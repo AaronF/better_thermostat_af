@@ -1095,13 +1095,14 @@ class BetterThermostat(ClimateEntity, RestoreEntity, ABC):
     @property
     def hvac_action(self):
         """Return the current HVAC action"""
-
-        _LOGGER.debug(
-            "-- Return the current HVAC action --"
-        )
-
+        if self.bt_hvac_mode is HVACMode.OFF:
+            self.attr_hvac_action = HVACAction.IDLE
+            _LOGGER.debug(
+                "hav_action set to idle"
+            )
         if (
-            self.bt_target_temp is not None
+            self.attr_hvac_action is None
+            and self.bt_target_temp is not None
             and self.cur_temp is not None
         ):
             if (
@@ -1111,33 +1112,13 @@ class BetterThermostat(ClimateEntity, RestoreEntity, ABC):
             ):
                 self.attr_hvac_action = HVACAction.HEATING
                 _LOGGER.debug(
-                    "Heating"
+                    "hav_action set to heating"
                 )
             else:
                 self.attr_hvac_action = HVACAction.IDLE
                 _LOGGER.debug(
-                    "Idle"
+                    "hav_action set to idle"
                 )
-
-        # if (
-        #     self.attr_hvac_action is None
-        #     and self.bt_target_temp is not None
-        #     and self.cur_temp is not None
-        # ):
-        #     if (
-        #         self.bt_target_temp > self.cur_temp
-        #         and self.window_open is False
-        #         and self.bt_hvac_mode is not HVACMode.OFF
-        #     ):
-        #         self.attr_hvac_action = HVACAction.HEATING
-        #         _LOGGER.debug(
-        #             "Heating 2"
-        #         )
-        #     else:
-        #         self.attr_hvac_action = HVACAction.IDLE
-        #         _LOGGER.debug(
-        #             "Idle 2"
-        #         )
 
         return self.attr_hvac_action
 
